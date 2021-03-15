@@ -8,7 +8,6 @@ const minorVersion = +version.split('.').slice(0, 2).join('.')
 export const recommended: Linter.Config = {
   ...base,
   rules: {
-    'mdx/no-jsx-html-comments': 2,
     'mdx/no-unescaped-entities': 1,
     'mdx/no-unused-expressions': 2,
     'mdx/remark': 1,

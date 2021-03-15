@@ -1,10 +1,14 @@
-/// <reference path="../typings.d.ts" />
-
 import type { Linter } from 'eslint'
 import type { SourceLocation } from 'estree'
-import type { Position } from 'unist'
+import type { Node, Position } from 'unist'
 
-import type { Arrayable, JsxNode, ParserFn, ParserOptions } from './types'
+import type {
+  JsxNode,
+  MdxNode,
+  ParserFn,
+  ParserOptions,
+  ValueOf,
+} from './types'
 
 export const FALLBACK_PARSERS = [
   '@typescript-eslint/parser',
@@ -18,9 +22,43 @@ export const JSX_TYPES = ['JSXElement', 'JSXFragment']
 export const isJsxNode = (node: { type: string }): node is JsxNode =>
   JSX_TYPES.includes(node.type)
 
+export const MdxNodeType = {
+  FLOW_EXPRESSION: 'mdxFlowExpression',
+  JSX_FLOW_ELEMENT: 'mdxJsxFlowElement',
+  JSX_TEXT_ELEMENT: 'mdxJsxTextElement',
+  TEXT_EXPRESSION: 'mdxTextExpression',
+  JS_ESM: 'mdxjsEsm',
+} as const
+
+// eslint-disable-next-line @typescript-eslint/no-type-alias
+export type MdxNodeType = ValueOf<typeof MdxNodeType>
+
+export const MDX_NODE_TYPES = [
+  MdxNodeType.FLOW_EXPRESSION,
+  MdxNodeType.JSX_FLOW_ELEMENT,
+  MdxNodeType.JSX_TEXT_ELEMENT,
+  MdxNodeType.TEXT_EXPRESSION,
+  MdxNodeType.JS_ESM,
+] as const
+
+export const isMdxNode = (node: Node): node is MdxNode =>
+  MDX_NODE_TYPES.includes(node.type as MdxNodeType)
+
+/**
+ * @internal
+ * only for testing
+ */
+export const parsersCache = new Map<ParserOptions['parser'], ParserFn[]>()
+
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export const normalizeParser = (parser?: ParserOptions['parser']) => {
+  if (parsersCache.has(parser)) {
+    return parsersCache.get(parser)
+  }
+
   if (parser) {
+    const originalParser = parser
+
     if (typeof parser === 'string') {
       // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
       parser = require(parser) as ParserOptions['parser']
@@ -36,7 +74,9 @@ export const normalizeParser = (parser?: ParserOptions['parser']) => {
       throw new TypeError(`Invalid custom parser for \`eslint-mdx\`: ${parser}`)
     }
 
-    return [parser]
+    const parsers = [parser]
+    parsersCache.set(originalParser, parsers)
+    return parsers
   }
 
   const parsers: ParserFn[] = []
@@ -60,6 +100,8 @@ export const normalizeParser = (parser?: ParserOptions['parser']) => {
     } catch {}
   }
 
+  parsersCache.set(parser, parsers)
+
   return parsers
 }
 
@@ -81,55 +123,6 @@ export const normalizePosition = (loc: Position): Omit<BaseNode, 'type'> => {
     end,
   }
 }
-
-export const hasProperties = <T, P extends keyof T = keyof T>(
-  obj: unknown,
-  properties: Arrayable<P>,
-): obj is T =>
-  typeof obj === 'object' &&
-  obj &&
-  properties.every(property => property in obj)
-
-export const restoreNodeLocation = <T>(
-  node: T,
-  startLine: number,
-  offset: number,
-): T => {
-  if (node && typeof node === 'object') {
-    for (const value of Object.values(node)) {
-      restoreNodeLocation(value, startLine, offset)
-    }
-  }
-
-  if (!hasProperties<BaseNode>(node, ['loc', 'range'])) {
-    return node
-  }
-
-  const {
-    loc: { start: startLoc, end: endLoc },
-    range,
-  } = node
-  const start = range[0] + offset
-  const end = range[1] + offset
-
-  return Object.assign(node, {
-    start,
-    end,
-    range: [start, end],
-    loc: {
-      start: {
-        line: startLine + startLoc.line,
-        column: startLoc.column,
-      },
-      end: {
-        line: startLine + endLoc.line,
-        column: endLoc.column,
-      },
-    },
-  })
-}
-
-export const first = <T>(items: T[] | readonly T[]) => items && items[0]
 
 export const last = <T>(items: T[] | readonly T[]) =>
   items && items[items.length - 1]

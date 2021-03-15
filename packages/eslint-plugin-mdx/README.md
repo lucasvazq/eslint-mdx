@@ -35,7 +35,6 @@
 - [Usage](#usage)
 - [Parser Options](#parser-options)
 - [Rules](#rules)
-  - [mdx/no-jsx-html-comments](#mdxno-jsx-html-comments)
   - [mdx/no-unescaped-entities](#mdxno-unescaped-entities)
   - [mdx/no-unused-expressions](#mdxno-unused-expressions)
   - [mdx/remark](#mdxremark)
@@ -178,10 +177,6 @@ npm i -D eslint-plugin-mdx
 3. `markdownExtensions` (`string | string[]`): `eslint-mdx` will only treat `.md` files as plain markdown by default, and will lint them via remark plugins. If you want to resolve other extensions as like `.md`, you can use this option.
 
 ## Rules
-
-### mdx/no-jsx-html-comments
-
-_Fixable_: HTML style comments in jsx block is invalid, this rule will help you to fix it by transforming it to JSX style comments.
 
 ### mdx/no-unescaped-entities
 

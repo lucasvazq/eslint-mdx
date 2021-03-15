@@ -333,7 +333,7 @@ function adjustBlock(
 
     const out = {
       line: lineInCode + blockStart,
-      column: message.column + block.position.indent[lineInCode - 1] - 1,
+      column: message.column + block.baseIndentText.length,
     } as Linter.LintMessage
 
     /* istanbul ignore else */

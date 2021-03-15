@@ -4,16 +4,38 @@ exports[`fixtures lint code blocks should work as expected: code-blocks.md 1`] =
 Array [
   Object {
     "column": 1,
+    "endColumn": 1,
+    "endLine": 13,
+    "line": 10,
+    "message": "Filename is not in kebab case. Rename it to \`0-0.js\`.",
+    "messageId": "renameToCase",
+    "nodeType": "Program",
+    "ruleId": "unicorn/filename-case",
+    "severity": 2,
+  },
+  Object {
+    "column": 2,
+    "endColumn": 2,
+    "endLine": 39,
+    "line": 36,
+    "message": "Filename is not in kebab case. Rename it to \`3-3.md\`.",
+    "messageId": "renameToCase",
+    "nodeType": "Program",
+    "ruleId": "unicorn/filename-case",
+    "severity": 2,
+  },
+  Object {
+    "column": 1,
     "endColumn": 6,
-    "endLine": 36,
+    "endLine": 38,
     "fix": Object {
       "range": Array [
-        406,
-        411,
+        410,
+        415,
       ],
       "text": "# abc",
     },
-    "line": 36,
+    "line": 38,
     "message": "Do not use headings with similar content (1:1)",
     "nodeType": "Program",
     "ruleId": "remark-lint-no-duplicate-headings",
@@ -22,32 +44,43 @@ Array [
   Object {
     "column": 1,
     "endColumn": 6,
-    "endLine": 36,
+    "endLine": 38,
     "fix": Object {
       "range": Array [
-        406,
-        411,
+        410,
+        415,
       ],
       "text": "# abc",
     },
-    "line": 36,
+    "line": 38,
     "message": "Don’t use multiple top level headings (1:1)",
     "nodeType": "Program",
     "ruleId": "remark-lint-no-multiple-toplevel-headings",
     "severity": 1,
   },
   Object {
+    "column": 2,
+    "endColumn": 2,
+    "endLine": 49,
+    "line": 44,
+    "message": "Filename is not in kebab case. Rename it to \`4-4.mdx\`.",
+    "messageId": "renameToCase",
+    "nodeType": "Program",
+    "ruleId": "unicorn/filename-case",
+    "severity": 2,
+  },
+  Object {
     "column": 1,
     "endColumn": 6,
-    "endLine": 46,
+    "endLine": 48,
     "fix": Object {
       "range": Array [
-        472,
-        477,
+        476,
+        481,
       ],
       "text": "# abc",
     },
-    "line": 46,
+    "line": 48,
     "message": "Do not use headings with similar content (3:1)",
     "nodeType": "Program",
     "ruleId": "remark-lint-no-duplicate-headings",
@@ -56,15 +89,15 @@ Array [
   Object {
     "column": 1,
     "endColumn": 6,
-    "endLine": 46,
+    "endLine": 48,
     "fix": Object {
       "range": Array [
-        472,
-        477,
+        476,
+        481,
       ],
       "text": "# abc",
     },
-    "line": 46,
+    "line": 48,
     "message": "Don’t use multiple top level headings (3:1)",
     "nodeType": "Program",
     "ruleId": "remark-lint-no-multiple-toplevel-headings",
@@ -104,15 +137,91 @@ Array [
     "ruleId": "remark-lint-no-multiple-toplevel-headings",
     "severity": 1,
   },
+  Object {
+    "column": 1,
+    "endColumn": 4,
+    "endLine": 17,
+    "fix": Object {
+      "range": Array [
+        158,
+        187,
+      ],
+      "text": "    export var a = 1 == 2",
+    },
+    "line": 15,
+    "message": "Missing code language flag",
+    "nodeType": "Program",
+    "ruleId": "remark-lint-fenced-code-flag",
+    "severity": 1,
+  },
 ]
 `;
 
-exports[`fixtures should match all snapshots: adjacent.mdx 1`] = `Array []`;
+exports[`fixtures should match all snapshots: adjacent.mdx 1`] = `
+Array [
+  Object {
+    "column": 14,
+    "endColumn": 15,
+    "endLine": 1,
+    "fix": Object {
+      "range": Array [
+        13,
+        14,
+      ],
+      "text": "",
+    },
+    "line": 1,
+    "message": "Delete \`·\`",
+    "nodeType": null,
+    "ruleId": "prettier/prettier",
+    "severity": 2,
+  },
+]
+`;
 
-exports[`fixtures should match all snapshots: basic.mdx 1`] = `Array []`;
+exports[`fixtures should match all snapshots: basic.mdx 1`] = `
+Array [
+  Object {
+    "column": 18,
+    "endColumn": 19,
+    "endLine": 3,
+    "fix": Object {
+      "range": Array [
+        46,
+        47,
+      ],
+      "text": " = ",
+    },
+    "line": 3,
+    "message": "Replace \`=\` with \`·=·\`",
+    "nodeType": null,
+    "ruleId": "prettier/prettier",
+    "severity": 2,
+  },
+]
+`;
+
+exports[`fixtures should match all snapshots: basic.tsx 1`] = `Array []`;
 
 exports[`fixtures should match all snapshots: blank-lines.mdx 1`] = `
 Array [
+  Object {
+    "column": 9,
+    "endColumn": 12,
+    "endLine": 1,
+    "fix": Object {
+      "range": Array [
+        8,
+        11,
+      ],
+      "text": " Box ",
+    },
+    "line": 1,
+    "message": "Replace \`Box\` with \`·Box·\`",
+    "nodeType": null,
+    "ruleId": "prettier/prettier",
+    "severity": 2,
+  },
   Object {
     "column": 1,
     "endColumn": 16,
@@ -131,26 +240,6 @@ Array [
     "severity": 1,
   },
   Object {
-    "column": 2,
-    "endColumn": 7,
-    "endLine": 31,
-    "line": 31,
-    "message": "'Tweet' is not defined.",
-    "nodeType": "JSXIdentifier",
-    "ruleId": "react/jsx-no-undef",
-    "severity": 2,
-  },
-  Object {
-    "column": 2,
-    "endColumn": 14,
-    "endLine": 33,
-    "line": 33,
-    "message": "'TextGradient' is not defined.",
-    "nodeType": "JSXIdentifier",
-    "ruleId": "react/jsx-no-undef",
-    "severity": 2,
-  },
-  Object {
     "column": 1,
     "endColumn": 36,
     "endLine": 35,
@@ -166,24 +255,6 @@ Array [
     "nodeType": "Program",
     "ruleId": "remark-lint-no-multiple-toplevel-headings",
     "severity": 1,
-  },
-  Object {
-    "column": 7,
-    "line": 35,
-    "message": "\`'\` can be escaped with \`&apos;\`, \`&lsquo;\`, \`&#39;\`, \`&rsquo;\`.",
-    "nodeType": "JSXText",
-    "ruleId": "mdx/no-unescaped-entities",
-    "severity": 1,
-  },
-  Object {
-    "column": 2,
-    "endColumn": 9,
-    "endLine": 41,
-    "line": 41,
-    "message": "'YouTube' is not defined.",
-    "nodeType": "JSXIdentifier",
-    "ruleId": "react/jsx-no-undef",
-    "severity": 2,
   },
 ]
 `;
@@ -224,26 +295,35 @@ Array [
     "ruleId": "remark-lint-no-multiple-toplevel-headings",
     "severity": 1,
   },
+  Object {
+    "column": 1,
+    "endColumn": 4,
+    "endLine": 17,
+    "fix": Object {
+      "range": Array [
+        158,
+        187,
+      ],
+      "text": "    export var a = 1 == 2",
+    },
+    "line": 15,
+    "message": "Missing code language flag",
+    "nodeType": "Program",
+    "ruleId": "remark-lint-fenced-code-flag",
+    "severity": 1,
+  },
 ]
 `;
 
 exports[`fixtures should match all snapshots: details.mdx 1`] = `
 Array [
   Object {
-    "column": 290,
-    "line": 3,
-    "message": "\`'\` can be escaped with \`&apos;\`, \`&lsquo;\`, \`&#39;\`, \`&rsquo;\`.",
-    "nodeType": "JSXText",
-    "ruleId": "mdx/no-unescaped-entities",
-    "severity": 1,
-  },
-  Object {
-    "column": 5,
-    "line": 5,
-    "message": "\`'\` can be escaped with \`&apos;\`, \`&lsquo;\`, \`&#39;\`, \`&rsquo;\`.",
-    "nodeType": "JSXText",
-    "ruleId": "mdx/no-unescaped-entities",
-    "severity": 1,
+    "column": undefined,
+    "fatal": true,
+    "line": undefined,
+    "message": "Parsing error: Cannot close \`paragraph\` (1:1-1:53): a different token (\`mdxJsxTextTag\`, 1:1-1:10) is open",
+    "ruleId": null,
+    "severity": 2,
   },
 ]
 `;
@@ -254,28 +334,7 @@ exports[`fixtures should match all snapshots: leading-spaces.mdx 1`] = `Array []
 
 exports[`fixtures should match all snapshots: markdown.md 1`] = `Array []`;
 
-exports[`fixtures should match all snapshots: no-jsx-html-comments.mdx 1`] = `Array []`;
-
-exports[`fixtures should match all snapshots: no-unescaped-entities.mdx 1`] = `
-Array [
-  Object {
-    "column": 8,
-    "line": 2,
-    "message": "\`>\` can be escaped with \`&gt;\`.",
-    "nodeType": "JSXText",
-    "ruleId": "mdx/no-unescaped-entities",
-    "severity": 1,
-  },
-  Object {
-    "column": 13,
-    "line": 5,
-    "message": "\`>\` can be escaped with \`&gt;\`.",
-    "nodeType": "JSXText",
-    "ruleId": "mdx/no-unescaped-entities",
-    "severity": 1,
-  },
-]
-`;
+exports[`fixtures should match all snapshots: no-unescaped-entities.mdx 1`] = `Array []`;
 
 exports[`fixtures should match all snapshots: processor.mdx 1`] = `
 Array [
@@ -318,4 +377,15 @@ Array [
 
 exports[`fixtures should match all snapshots: remark.md 1`] = `Array []`;
 
-exports[`fixtures should match all snapshots: remark.mdx 1`] = `Array []`;
+exports[`fixtures should match all snapshots: remark.mdx 1`] = `
+Array [
+  Object {
+    "column": 2,
+    "fatal": true,
+    "line": undefined,
+    "message": "Parsing error: Unexpected character \`!\` (U+0021) before name, expected a character that can start a name, such as a letter, \`$\`, or \`_\` (note: to create a comment in MDX, use \`{/* text */}\`)",
+    "ruleId": null,
+    "severity": 2,
+  },
+]
+`;

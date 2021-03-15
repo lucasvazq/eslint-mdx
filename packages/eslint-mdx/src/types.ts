@@ -1,6 +1,9 @@
 import type { JSXElement, JSXFragment } from '@babel/types'
 import type { AST, Linter } from 'eslint'
+import type { Program } from 'estree'
 import type { Node, Parent, Point } from 'unist'
+
+import type { MdxNodeType } from './helpers'
 
 export type JsxNode = (JSXElement | JSXFragment) & { range: [number, number] }
 
@@ -35,11 +38,6 @@ export interface ParserOptions extends Linter.ParserOptions {
 
 export type Traverser = (node: Node, parent?: Parent) => void
 
-export interface TraverseOptions {
-  code: string
-  enter: Traverser
-}
-
 export interface Comment {
   fixed: string
   loc: {
@@ -49,6 +47,19 @@ export interface Comment {
   origin: string
 }
 
-export interface ParserServices {
-  JSXElementsWithHTMLComments: Node[]
+export type ValueOf<T> = T extends {
+  [key: string]: infer M
+}
+  ? M
+  : T extends {
+      [key: number]: infer N
+    }
+  ? N
+  : never
+
+export interface MdxNode extends Node {
+  type: MdxNodeType
+  data: {
+    estree: Program
+  }
 }

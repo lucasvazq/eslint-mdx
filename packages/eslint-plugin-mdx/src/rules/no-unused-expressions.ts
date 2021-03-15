@@ -1,3 +1,6 @@
+/* istanbul ignore file */
+// FIXME: not working for now
+
 /// <reference path="../../typings.d.ts" />
 
 import type { Rule } from 'eslint'
