@@ -1,13 +1,16 @@
+/// <reference path="../typings.d.ts" />
+
 import path from 'path'
 
 import type { AST, Linter } from 'eslint'
 import remarkMdx from 'remark-mdx'
 import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
 import unified from 'unified'
-import type { Parent } from 'unist'
 
-import { isMdxNode, normalizeParser, normalizePosition } from './helpers'
-import { traverse } from './traverse'
+import { MDX_NODE_TYPES, normalizeParser, normalizePosition } from './helpers'
+import { rehypeRecma } from './plugins/rehype-recma'
+import { remarkMarkAndUnravel } from './plugins/remark-mark-and-unravel'
 import type { ParserFn, ParserOptions } from './types'
 
 export const mdProcessor = unified().use(remarkParse).freeze()
@@ -28,6 +31,12 @@ export const getEsLintMdxProcessor = (tokens: AST.Token[]) =>
         },
       },
     )
+    .use(remarkMarkAndUnravel)
+    .use(remarkRehype, {
+      allowDangerousHtml: true,
+      passThrough: [...MDX_NODE_TYPES],
+    })
+    .use(rehypeRecma)
     .freeze()
 
 export const AST_PROPS = ['body', 'comments'] as const
@@ -84,31 +93,36 @@ export class Parser {
 
     const tokens: AST.Token[] = []
 
-    const root = (isMdx ? getEsLintMdxProcessor(tokens) : mdProcessor).parse(
-      code,
-    ) as Parent
+    const processor = isMdx ? getEsLintMdxProcessor(tokens) : mdProcessor
+    const root = processor.runSync(processor.parse(code))
 
-    this._ast = {
-      ...normalizePosition(root.position),
-      type: 'Program',
-      sourceType: options.sourceType,
-      body: [],
-      comments: [],
-      tokens,
-    }
+    console.log(JSON.stringify(root, null, 2))
 
-    if (isMdx) {
-      traverse(root, node => {
-        if (!isMdxNode(node)) {
-          return
+    this._ast = isMdx
+      ? ((root as unknown) as AST.Program)
+      : {
+          ...normalizePosition(root.position),
+          type: 'Program',
+          sourceType: options.sourceType,
+          body: [],
+          comments: [],
+          tokens,
         }
 
-        for (const prop of AST_PROPS) {
-          // @ts-ignore
-          this._ast[prop].push(...(node.data?.estree[prop] || []))
-        }
-      })
-    }
+    this._ast.tokens = tokens
+
+    // if (isMdx) {
+    //   traverse(root, node => {
+    //     if (!isMdxNode(node)) {
+    //       return
+    //     }
+
+    //     for (const prop of AST_PROPS) {
+    //       // @ts-ignore
+    //       this._ast[prop].push(...(node.data?.estree?.[prop] || []))
+    //     }
+    //   })
+    // }
 
     return { ast: this._ast }
   }

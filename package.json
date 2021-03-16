@@ -29,7 +29,7 @@
     "@1stg/tslint-config": "^1.2.0",
     "@types/eslint": "^7.2.7",
     "@types/jest": "^26.0.20",
-    "@types/node": "^14.14.34",
+    "@types/node": "^14.14.35",
     "@types/react": "^17.0.3",
     "@types/rebass": "^4.0.8",
     "@types/unist": "^2.0.3",
@@ -60,6 +60,7 @@
     "fixtures",
     "lib",
     "CHANGELOG.md",
+    "packages/**/plugins/*.js",
     "!/.*.js"
   ],
   "jest": {
@@ -75,7 +76,7 @@
         "statements": 100
       }
     },
-    "preset": "ts-jest"
+    "preset": "ts-jest/presets/js-with-ts"
   },
   "prettier": "@1stg/prettier-config",
   "remarkConfig": {

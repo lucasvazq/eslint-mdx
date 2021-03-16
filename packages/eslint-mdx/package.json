@@ -32,9 +32,14 @@
     "eslint": ">=5.0.0"
   },
   "dependencies": {
+    "hast-util-to-estree": "^1.3.2",
     "remark-mdx": "https://gitpkg.now.sh/mdx-js/mdx/packages/remark-mdx?main",
     "remark-parse": "^9.0.0",
+    "remark-rehype": "^8.0.0",
     "tslib": "^2.1.0",
-    "unified": "^9.2.1"
+    "unified": "^9.2.1",
+    "unist-builder": "^2.0.3",
+    "unist-util-position-from-estree": "^1.0.0",
+    "unist-util-visit": "^2.0.3"
   }
 }
