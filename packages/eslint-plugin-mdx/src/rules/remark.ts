@@ -63,6 +63,9 @@ export const remark: Rule.RuleModule = {
             ? context.getPhysicalFilename()
             : getPhysicalFilename(filename)
 
+        console.log('filename:', filename)
+        console.log('physicalFilename:', physicalFilename)
+
         const sourceText = sourceCode.getText(node)
         const remarkProcessor = getRemarkProcessor(physicalFilename, isMdx)
 
